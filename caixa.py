@@ -11,6 +11,6 @@ class Caixa:
         if preco >= 0:
             self.__produtos.append((nome, preco))  
             self.__total += preco                 
-            print(f"Produto {nome}.\nPreço: {preco}.\nTotal agora: {self.__total}")
+            print(f"Produto {nome}.\nPreço: {preco:.2f}.\nTotal agora: {self.__total:.2f}")
         else:
             print("O preço do produto deve ser positivo.")
