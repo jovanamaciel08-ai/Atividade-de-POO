@@ -11,6 +11,7 @@ from caixa import Caixa
 
 # EXERCÍCIO I 
 def criar_conta():
+    print("\n- - - CONTA BANCARIA - - -")
     numero = input("Digite o número da conta: ")
     titular = input("Digite o nome do titular: ")
     saldo = float(input("Digite o saldo inicial: "))
@@ -19,10 +20,9 @@ def criar_conta():
     print(f"\nConta criada com sucesso!\nTitular: {conta.get_titular()}\nNúmero: {conta.get_numero_conta()}\nSaldo: R${conta.get_saldo():.2f}\n")
     return conta
 
-
 def menu(conta):
     while True:
-        print("\nEscolha uma opção:")
+        print("\n- - - MENU - - -:")
         print("1 - Depositar")
         print("2 - Sacar")
         print("3 - Ver saldo")
@@ -51,7 +51,6 @@ def menu(conta):
             break
         else:
             print("Opção inválida. Tente novamente.")
-
 
 if __name__ == "__main__":
     minha_conta = criar_conta()
@@ -97,7 +96,7 @@ def listar_produtos(estoque):
 def menu_estoque():
     estoque = []
     while True:
-        print("\nEscolha uma opção:")
+        print("\n- - - MENU ESTOQUE - - -:")
         print("1 - Cadastrar produto")
         print("2 - Listar produtos")
         print("3 - Adicionar estoque")
@@ -165,7 +164,7 @@ def menu_alunos():
 
         aluno = Aluno(nome, matricula, media)
         alunos.append(aluno)
-        print(f"\nAluno '{aluno.get_nome()}' cadastrado com sucesso!\n")
+        print(f"\nAluno {aluno.get_nome()} cadastrado com sucesso!\n")
 
     def listar_alunos():
         if not alunos:
@@ -200,7 +199,7 @@ def menu_alunos():
             print("Opção inválida.")
 
     while True:
-        print("\nEscolha uma opção:")
+        print("\n- - - CADASTRO - - -:")
         print("1 - Cadastrar aluno")
         print("2 - Listar alunos")
         print("3 - Consultar média de um aluno")
@@ -222,7 +221,6 @@ def menu_alunos():
         else:
             print("Opção inválida. Tente novamente.")
 
-
 if __name__ == "__main__":
     menu_alunos()
 
@@ -233,13 +231,13 @@ def criar_livro():
     ano = int(input("Digite o ano de publicação: "))
     
     livro = Livro(titulo, autor, ano)
-    print(f"\nLivro '{livro.get_titulo()}' criado com sucesso!\nAutor: {livro.get_autor()}\nAno: {livro.get_ano()}")
+    print(f"\nLivro {livro.get_titulo()}\nAutor: {livro.get_autor()}\nAno: {livro.get_ano()}")
     return livro
 
 def menu_livros():
     livros = []
     while True:
-        print("\nEscolha uma opção:")
+        print("\n- - - MENU - - -:")
         print("1 - Cadastrar livro")
         print("2 - Listar livros")
         print("3 - Consultar livro")
@@ -286,7 +284,7 @@ def criar_funcionario():
     salario = float(input("Digite o salário inicial: "))
 
     funcionario = Funcionario(nome, cargo, salario)
-    print(f"\nFuncionário '{funcionario.get_nome()}' criado com sucesso! Cargo: {funcionario.get_cargo()}, Salário: {funcionario.get_salario()}\n")
+    print(f"\nFuncionário {funcionario.get_nome()}\nCargo: {funcionario.get_cargo()}\nSalário: {funcionario.get_salario()}\n")
     return funcionario
 
 def menu(funcionario):
@@ -336,38 +334,73 @@ if __name__ == "__main__":
     print("Após frear muito forte:", carro1.get_velocidade())
 
 # EXERCÍCIO VII
-def criar_pessoa():
+def cadastrar_pessoa():
     nome = input("Digite o nome da pessoa: ")
     cpf = input("Digite o CPF (apenas números): ")
-    idade = int(input("Digite a idade: "))
+    while True:
+        try:
+            idade = int(input("Digite a idade: "))
+            if idade < 0:
+                print("Idade não pode ser negativa.")
+                continue
+            break
+        except ValueError:
+            print("Digite um número inteiro válido.")
 
     pessoa = Pessoa(nome, idade, cpf)
-    print(f"\nPessoa '{pessoa.get_nome()}' criada com sucesso! Idade: {pessoa.get_idade()}, CPF: {pessoa.get_cpf()}\n")
+    print(f"\nPessoa {pessoa.get_nome()} cadastrada com sucesso!\n")
     return pessoa
 
-def menu(pessoa):
+def menu():
+    pessoas = []
+
     while True:
-        print("\nEscolha uma opção:")
-        print("1 - Ver nome")
-        print("2 - Ver idade")
-        print("3 - Atualizar idade")
-        print("4 - Ver CPF")
+        print("\n--- MENU ---")
+        print("1 - Cadastrar pessoa")
+        print("2 - Listar pessoas")
+        print("3 - Consultar pessoa")
+        print("4 - Atualizar idade de uma pessoa")
         print("5 - Sair")
-        opcao = input("Opção: ")
+        opcao = input("Escolha uma opção: ")
 
         if opcao == "1":
-            print(f"Nome: {pessoa.get_nome()}")
+            pessoa = cadastrar_pessoa()
+            pessoas.append(pessoa)
         elif opcao == "2":
-            print(f"Idade: {pessoa.get_idade()}")
+            if not pessoas:
+                print("Nenhuma pessoa cadastrada.")
+            else:
+                print("\nPessoas cadastradas:")
+                for i, p in enumerate(pessoas, 1):
+                    print(f"{i}. {p.get_nome()} - Idade: {p.get_idade()} - CPF: {p.get_cpf()}")
         elif opcao == "3":
-            try:
-                nova_idade = int(input("Digite a nova idade: "))
-                pessoa.set_idade(nova_idade)
-                print(f"Idade atualizada para {pessoa.get_idade()}")
-            except ValueError:
-                print("Digite um número válido.")
+            if not pessoas:
+                print("Nenhuma pessoa cadastrada.")
+                continue
+            for i, p in enumerate(pessoas, 1):
+                print(f"{i}. {p.get_nome()}")
+            escolha = int(input("Escolha o número da pessoa: ")) - 1
+            if 0 <= escolha < len(pessoas):
+                p = pessoas[escolha]
+                print(f"\nNome: {p.get_nome()}\nIdade: {p.get_idade()}\nCPF: {p.get_cpf()}")
+            else:
+                print("Opção inválida.")
         elif opcao == "4":
-            print(f"CPF: {pessoa.get_cpf()}")
+            if not pessoas:
+                print("Nenhuma pessoa cadastrada.")
+                continue
+            for i, p in enumerate(pessoas, 1):
+                print(f"{i}. {p.get_nome()}")
+            escolha = int(input("Escolha o número da pessoa para atualizar idade: ")) - 1
+            if 0 <= escolha < len(pessoas):
+                try:
+                    nova_idade = int(input("Digite a nova idade: "))
+                    pessoas[escolha].set_idade(nova_idade)
+                    print(f"Idade atualizada para {pessoas[escolha].get_idade()}")
+                except ValueError:
+                    print("Digite um número válido.")
+            else:
+                print("Opção inválida.")
         elif opcao == "5":
             print("Encerrando o programa...")
             break
@@ -375,8 +408,7 @@ def menu(pessoa):
             print("Opção inválida. Tente novamente.")
 
 if __name__ == "__main__":
-    pessoa_criada = criar_pessoa()
-    menu(pessoa_criada)
+    menu()
 
 # EXERCÍCIO VIII 
 def criar_conta():
@@ -384,7 +416,7 @@ def criar_conta():
     consumo = float(input("Digite o consumo em kWh: "))
 
     conta = ContaDeLuz(numero, consumo)
-    print(f"\nConta de luz criada! Número: {conta.get_numero_instalacao()}, Consumo: {conta.get_consumo()} kWh, Valor: R$ {conta.get_valor():.2f}\n")
+    print(f"\nConta de luz criada! Número: {conta.get_numero_instalacao()}\nConsumo: {conta.get_consumo()} kWh\nValor: R$ {conta.get_valor():.2f}")
     return conta
 
 def menu(conta):
@@ -424,7 +456,7 @@ def criar_animal():
     idade = int(input("Digite a idade do animal: "))
 
     animal = Animal(nome, especie, idade)
-    print(f"\nAnimal '{animal.get_nome()}' criado! Espécie: {animal.get_especie()}, Idade: {animal.get_idade()} anos\n")
+    print(f"\nAnimal {animal.get_nome()} criado!\nEspécie: {animal.get_especie()}\nIdade: {animal.get_idade()} anos")
     return animal
 
 def menu(animal):
@@ -469,11 +501,14 @@ def menu_caixa():
             nome = input("Nome do produto: ")
             try:
                 preco = float(input("Preço do produto: "))
-                caixa.adicionar_produto(nome, preco)
+                quantidade = int(input("Quantidade: "))
+
+                caixa.adicionar_produto(nome, preco, quantidade)
+                print("Produto adicionado!")
             except ValueError:
-                print("Digite um valor válido para o preço.")
+                print("Erro: Digite valores numéricos válidos.")
         elif opcao == "2":
-            print(f"Total da compra: R$ {caixa.get_total():.2f}")
+            print(f"\nTotal da compra: R$ {caixa.get_total():.2f}")
         elif opcao == "3":
             print("Encerrando o programa...")
             break
