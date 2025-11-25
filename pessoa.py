@@ -1,22 +1,20 @@
 class Pessoa:
     def __init__(self, nome, idade, cpf):
         self.__nome = nome
-        self.__cpf = cpf  
-
-        self.set_idade(idade)
+        self.__idade = max(0, idade)
+        self.__cpf = cpf
 
     def get_nome(self):
-        return self.__nome   
+        return self.__nome
 
     def get_idade(self):
-        return self.__idade 
+        return self.__idade
+
+    def set_idade(self, nova_idade):
+        if nova_idade >= 0:
+            self.__idade = nova_idade
+        else:
+            print("Idade não pode ser negativa.")
 
     def get_cpf(self):
-        return self.__cpf   
-
-    def set_idade(self, idade):
-        if idade >= 0:
-            self.__idade = idade
-        else:
-            self.__idade = 0  
-            print("Idade não pode ser negativa. Definida como 0.")
+        return self.__cpf
